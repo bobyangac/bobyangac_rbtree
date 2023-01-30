@@ -136,7 +136,7 @@ func (t *Rbtree) SliceAscendFirstN(length int) []*Node {
 	result := make([]*Node, t.count)
 	count := 0
 
-	t.dfsLeft(t.root, &count, result)
+	t.dfsLeftFirstN(t.root, &count, length, result)
 	return result
 }
 
@@ -144,21 +144,21 @@ func (t *Rbtree) dfsLeftFirstN(x *Node, count *int, length int, result []*Node) 
 	if x == t.NIL {
 		return
 	}
-	t.dfsLeft(x.Left, count, result)
+	t.dfsLeftFirstN(x.Left, count, length, result)
 	result[*count] = x
 	*count++
 	if *count == length {
 		return
 	}
-	t.dfsLeft(x.Right, count, result)
+	t.dfsLeftFirstN(x.Right, count, length, result)
 }
 
 // SliceDescend will recursively go through Nodes and return a slice of Nodes by descending order.
-func (t *Rbtree) SliceDescendFirstN() []*Node {
+func (t *Rbtree) SliceDescendFirstN(length int) []*Node {
 	result := make([]*Node, t.count)
 	count := 0
 
-	t.dfsRight(t.root, &count, result)
+	t.dfsRightFirstN(t.root, &count, length, result)
 	return result
 }
 
@@ -167,11 +167,11 @@ func (t *Rbtree) dfsRightFirstN(x *Node, count *int, length int, result []*Node)
 		return
 	}
 	result[*count] = x
-	t.dfsRight(x.Right, count, result)
+	t.dfsRightFirstN(x.Right, count, length, result)
 	result[*count] = x
 	*count++
 	if *count == length {
 		return
 	}
-	t.dfsRight(x.Left, count, result)
+	t.dfsRightFirstN(x.Left, count, length, result)
 }
